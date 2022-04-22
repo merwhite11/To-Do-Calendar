@@ -74,11 +74,11 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
   // PATCH '/todoList/:userEmail' -> For updating the data -> ex. Moving around item in Calendar / Lengthening item in Calendar / Clicking on "Done" in Modal for Calendar/TodoList
   const updateTodo = (todo) => {
     console.log('Update Todo: ', todo);
-    // axios.put('/todoList/updateItem', { params: { userEmail: userEmail }, data: todo })
-    //   .then((result) => {
-      //     console.log(result);
-      //   })
-      //   .catch(err => console.error(err));
+    axios.put('http://localhost:3000/todoList/updateItem', { params: { userEmail: userEmail }, data: todo })
+      .then((result) => {
+            getAllTodos(userEmail)
+        })
+        .catch(err => console.error(err));
   }
 
   const updateCategory = (category) => {
@@ -226,7 +226,9 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
         list.forEach(category => {
           category.items.forEach(item => {
             if (item === existing) {
+              console.log('match')
               item.in_calendar = !item.in_calendar
+              // updateTodo(item)
             }
           })
         })

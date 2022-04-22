@@ -15,11 +15,47 @@ const useStyles = makeStyles((theme) => ({
 
 function Category({tasks, isMobile, draggedEvent, setDraggedEvent, handleDragStart, addTodo, updateTodo, deleteTodo}) {
   const classes = useStyles();
+  const [todos, setTodos] = useState(tasks.items || null)
+  const [catId, setCatId] = useState(tasks.category_id || null)
   const [totalTime, setTotalTime] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
-  const todos = tasks.items;
-  const categoryId = tasks.category_id
-  const onCalendarTasks = todos.filter(task => task.in_calendar);
+  const [cumulativeHours, setCumulativeHours] = useState(0)
+  const [cumulativeMins, setCumulativeMins] = useState(0)
+
+  useEffect(() => {
+    setTodos(tasks.items)
+    setCatId(tasks.category_id)
+  }, [])
+
+  // console.log('todos in category', todos)
+  // const onCalendarTasks = todos.filter(task => task.in_calendar);
+  // let accumulation = 0
+  // // console.log('oncal', onCalendarTasks)
+  // onCalendarTasks.map((task) => {
+  //   console.log('new date', new Date())
+  //   if(task.end_date < new Date()) {
+  //     accumulation += task.duration
+  //     // console.log('acc', accumulation)
+  //   }
+  // })
+
+  // const convertDuration = (duration) => {
+  //   const splitDuration = duration.split(':')
+  //   let hours = splitDuration[0]
+  //   const hoursDigits = hours.split('')
+  //   if (hoursDigits[0] === '0' && hoursDigits.length === 2) {
+  //     hours = hoursDigits[1]
+  //   }
+  //   let minutes = splitDuration[1]
+  //   const minutesDigits = minutes.split('')
+  //   if (minutesDigits[0] === '0') {
+  //     minutes = minutesDigits[1]
+  //   }
+    // setCumulativeHours(hours)
+    // setCumulativeMins(minutes)
+  // }
+
+  // convertDuration(accumulation)
 
   return (
     <Container>
@@ -28,7 +64,6 @@ function Category({tasks, isMobile, draggedEvent, setDraggedEvent, handleDragSta
           <div>{tasks.category}</div>
           <div>Time Spent So Far: 0</div>
           <Button onClick={() => {
-            setTotalTime(totalTime + 1);
             setModalOpen(true);
           }}>Add Task</Button>
           {modalOpen === true &&
