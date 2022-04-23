@@ -1,5 +1,6 @@
 const todoListRouter = require('express').Router();
 const query = require('../controllers/pg.js');
+const moment = require('moment');
 
 todoListRouter.get('/info', (req, res) => {
   const email = req.query.email;
@@ -62,17 +63,6 @@ todoListRouter.post('/item', async (req, res) => {
     }
   });
 });
-
-todoListRouter.route('/:userEmail').get((req, res) => {
-  const userEmail = req.params.email
-  res.send(userEmail);
-})
-
-todoListRouter.route('/:userEmail').post((req, res) => {
-  const userEmail = req.params
-  const item = req.body
-  res.send('Todo List Router GET');
-})
 
 todoListRouter.put('/updateCategory', async (req, res) => {
   var category_id = req.body.data.category_id;

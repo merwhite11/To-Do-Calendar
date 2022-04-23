@@ -4,7 +4,7 @@ import Category from './Category.jsx';
 import Tasks from './Tasks.jsx';
 import TaskOptionsModal from '../TaskOptionsModal.jsx';
 import Home from '../Home.jsx'
-import { makeStyles, Container, Button, Modal } from '@material-ui/core';
+import { makeStyles, Container, Button, Modal, Paper } from '@material-ui/core';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import AddCategoryModal from './newCategory.jsx';
@@ -17,7 +17,31 @@ const useStyles = makeStyles({
   },
   desktopMain: {
     width: '45%',
-    display: 'inline-block'
+    display: 'inline-block',
+    height: '100%'
+  },
+  paper: {
+    display: 'inline-block',
+    padding: '1rem',
+    width: '100%',
+    color: 'black',
+    minHeight: '80vh',
+    overflowY: 'scroll'
+  },
+  todoListTopContainer: {
+    display: 'inline-block',
+    width: '100%',
+    marginBottom: '8px'
+  },
+  button: {
+    wordWrap: 'initial',
+    backgroundColor: '#1976d2',
+    color: 'white',
+    marginRight: '4px'
+  },
+  categories: {
+    paddingLeft: '0px',
+    paddingRight: '0px'
   }
 });
 
@@ -44,18 +68,24 @@ function ToDoList({isMobile, draggedEvent, setDraggedEvent, handleDragStart, tas
 
   return (
     <Container className={isMobile ? classes.mobileMain : classes.desktopMain}>
-      <Container sx={{display: 'flex', height: '50px', width: '100%'}}>
-        <div style={{width: '80%'}}>To-Do List</div>
-        <Button variant="contained" onClick={() => {openSetNewCat(true)}}>New Category</Button>
-        <AddCategoryModal open={newCatModalOpen} closeCat={openSetNewCat} addCategory={addCategory} />
-        <Button variant="contained" onClick={() => {openSetNewToDo(true)}}>New Task</Button>
-        <AddToDoModal open={newToDoModalOpen} closeCat={openSetNewToDo} addTodo={addTodo} taskData={taskData}/>
-      </Container>
-      <div>
-        <Categories taskData={taskData} isMobile={isMobile} draggedEvent={draggedEvent}
-          setDraggedEvent={setDraggedEvent} handleDragStart={handleDragStart} deleteCategory={deleteCategory}
-          addTodo={addTodo} updateTodo={updateTodo} deleteTodo={deleteTodo}/>
-      </div>
+      <Paper elevation={1} className={classes.paper}>
+        <Container>
+          <Container className={classes.todoListTopContainer}>
+            <div style={{display: 'flex', justifyContent: 'center', width: '100%', fontSize: '24px', fontWeight: '600', marginBottom: '12px'}}>To-Do List</div>
+            <div style={{display: 'flex', justifyContent: 'center'}}>
+              <Button className={classes.button} variant="contained" onClick={() => {openSetNewCat(true)}}>New Category</Button>
+              <AddCategoryModal open={newCatModalOpen} closeCat={openSetNewCat} addCategory={addCategory} />
+              <Button className={classes.button} variant="contained" onClick={() => {openSetNewToDo(true)}}>New Task</Button>
+              <AddToDoModal open={newToDoModalOpen} closeCat={openSetNewToDo} addTodo={addTodo} taskData={taskData}/>
+            </div>
+          </Container>
+          <Container className={classes.categories}>
+            <Categories taskData={taskData} isMobile={isMobile} draggedEvent={draggedEvent}
+              setDraggedEvent={setDraggedEvent} handleDragStart={handleDragStart} deleteCategory={deleteCategory}
+              addTodo={addTodo} updateTodo={updateTodo} deleteTodo={deleteTodo}/>
+          </Container>
+        </Container>
+      </Paper>
     </Container>
     )
 };

@@ -8,8 +8,36 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     display: 'inline-block',
     padding: '1rem',
+    marginBottom: '0.5rem',
     width: '100%',
-    color: 'black'
+    color: 'black',
+    backgroundColor: '#e0e0e059'
+  },
+  taskTopDiv: {
+    display: 'flex',
+    paddingTop: '4px',
+    paddingBottom: '4px'
+  },
+  titleNDesc: {
+    width: '50%'
+  },
+  taskCategory: {
+    fontSize: '16px',
+    fontWeight: '600',
+    paddingBottom: '4px',
+  },
+  buttons: {
+    width: '50%',
+    textAlign: 'right'
+  },
+  add: {
+    backgroundColor: '#1976d2',
+    color: 'white',
+    marginRight: '4px'
+  },
+  delete: {
+    backgroundColor: 'red',
+    color: 'white'
   }
 }))
 
@@ -48,15 +76,21 @@ function Category({tasks, isMobile, draggedEvent, setDraggedEvent, handleDragSta
   return (
     <Container>
       <Paper elevation={2} className={classes.paper}>
-        <Container sx={{display: 'flex'}}>
-          <div>{tasks.category}</div>
-          <div>Time Spent So Far: {accumulationHours} hours {accumulationMins} minutes</div>
-          <Button onClick={() => {
-            setModalOpen(true);
-          }}>Add Task</Button>
-          <Button sx={{backgroundColor: 'red', color: 'blue'}}onClick={() => {
-            deleteCategory(tasks);
-          }}>Delete Category</Button>
+        <Container className={classes.taskContainer}>
+          <div className={classes.taskTopDiv}>
+            <div className={classes.titleNDesc}>
+              <div className={classes.taskCategory}>{tasks.category}</div>
+              <div>Time Spent So Far: {accumulationHours} hours {accumulationMins} minutes</div>
+            </div>
+            <div className={classes.buttons}>
+              <Button className={classes.add} onClick={() => {
+                setModalOpen(true);
+              }}>Add Task</Button>
+              <Button className={classes.delete} onClick={() => {
+                deleteCategory(tasks);
+              }}>Delete Category</Button>
+            </div>
+          </div>
           {modalOpen === true &&
           <TaskOptionsModal setModalOpen={setModalOpen} modalOpen={modalOpen} task={newTask}
           categoryId={categoryId} addTodo ={addTodo} updateTodo={updateTodo}

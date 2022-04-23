@@ -35,22 +35,20 @@ const MyCalendar = (props) => {
     )
   }
 
-  // console.log(props.myEvents);
-
   return (
     <>
       <DragAndDropCalendar
         className='calendar'
         localizer={localizer}
         defaultView="week"
-        events={props.formatForCalendar(props.myEvents)? props.formatForCalendar(props.myEvents).filter(item => item.in_calendar) : []}
+        events={props.formatForCalendar(props.myEvents) ? props.formatForCalendar(props.myEvents).filter(item => item.in_calendar) : []}
         startAccessor="start"
         endAccessor="end_date"
         onSelectEvent={(event) => {
           handleOnSelectEvent(event);
         }}
-        min={new Date(moment().hour(6).minute(0))}
-        max={new Date(moment().hour(23).minute(0))}
+        min={new Date(moment().hour(0).minute(0))}
+        max={new Date(moment().hour(23).minute(59))}
         onEventDrop={props.moveEvent}
         onEventResize={props.resizeEvent}
         onDropFromOutside={props.onDropFromOutside}

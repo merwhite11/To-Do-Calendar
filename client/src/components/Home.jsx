@@ -75,8 +75,7 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
     // console.log('Update Todo: ', todo);
     await axios.put('http://localhost:3000/todoList/updateItem', { params: { userEmail: userEmail }, data: todo })
       .then((result) => {
-        getAllTodos()
-        console.log(result);
+        getAllTodos(userEmail);
       })
       .catch(err => console.error(err));
   }
@@ -124,20 +123,27 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
   const moveEvent = useCallback (
     ({ event, start, end, isAllDay: droppedOnAllDaySlot = false }) => {
       const { allDay } = event;
+      console.log(`start: ${start}, end: ${end}, allDay: ${allDay}`);
+      console.log('event: ', event);
       if (isLoggedIn === false) {
+        console.log('isLoggedIn moveEvent: ', isLoggedIn);
         navigate('/signin')
       } else {
         if (!allDay && droppedOnAllDaySlot) {
           event.allDay = true;
         }
+        console.log('help');
         setMyEvents((prev) => {
           const existing = event;
           const list = prev
+          console.log('list, existing', list, existing)
           list.categories.forEach(category => {
+            console.log('category', category);
             category.items.forEach(item => {
               if (item === existing) {
                 item.start = start;
                 item.end_date = end;
+                updateTodo(item);
               }
             })
           })
@@ -180,26 +186,6 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
     },
     [setMyEvents]
   );
-
-  const changeTitle = (event) => {
-    if (isLoggedIn === false) {
-      navigate('/signin')
-    } else {
-      var title = prompt("Change title", event.title);
-      setMyEvents((prev) => {
-        const existing = event;
-        const list = prev
-        list.categories.forEach(category => {
-          category.items.forEach(item => {
-            if (item === existing) {
-              item.title = title;
-            }
-          })
-        })
-        return list;
-      })
-    }
-  };
 
   const handleDragStart = useCallback((event) => {
     setDraggedEvent(event)
@@ -280,7 +266,7 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
     updateTodo={updateTodo} addTodo={addTodo} deleteTodo={deleteTodo} />);
 
   const myCalendar = (<MyCalendar formatForCalendar={formatForCalendar} myEvents={myEvents} moveEvent={moveEvent} resizeEvent={resizeEvent}
-    changeTitle={changeTitle} onDropFromOutside={onDropFromOutside} sharedEvents={sharedEvents}
+    onDropFromOutside={onDropFromOutside} sharedEvents={sharedEvents}
     updateTodo={updateTodo} addTodo={addTodo} deleteTodo={deleteTodo}
     viewingShared={viewingShared} />);
 
@@ -313,7 +299,7 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
         <div>
           {naviBar}
           {myCalendar}
-          {toDoList ?? null}
+          {toDoList}
         </div>
       )
     }

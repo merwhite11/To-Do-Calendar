@@ -97,7 +97,7 @@ const Login = ({setEmail, isLoggedIn, setIsLoggedIn}) => {
     }
   }
   const handleGoogleLogin = async () => {
-    window.open('/auth/google');
+    window.open('http://localhost:3000/auth/google');
   }
 
   return (

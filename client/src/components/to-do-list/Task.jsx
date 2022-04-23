@@ -18,6 +18,32 @@ const useStyles = makeStyles({
   card: {
     display: 'flex',
     border: '1rem solid black',
+  },
+  task: {
+    marginBottom: '4px'
+  },
+  editButton: {
+    backgroundColor: '#1976d2',
+    color: 'white',
+    marginRight: '4px'
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'right',
+    padding: '0px'
+  },
+  title: {
+    width: '50%',
+    fontSize: '14px'
+  },
+  description: {
+    fontSize: '12px'
+  },
+  duration: {
+    display: 'flex',
+    padding: '4px',
+    width: '50%',
+    justifyContent: 'right',
   }
 });
 
@@ -87,25 +113,25 @@ function Task({task, isMobile, draggedEvent, setDraggedEvent, handleDragStart, c
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <Grid item xs={12} lg={12}>
+      <Grid className={classes.task} item xs={12} lg={12}>
         <Grid item xs={12}>
           <Card onDragStart={() => handleDragStart(task)} draggable='true'>
             {modalOpen === true && <TaskOptionsModal setModalOpen={setModalOpen} modalOpen={modalOpen} task={task} updateTodo={updateTodo} deleteTodo={deleteTodo} updateTask={updateTask}/>}
             <CardContent>
-              <div style={{display: 'flex', flexDirection: 'row', gap: '5%'}}>
-                <Typography>
+              <div style={{display: 'flex', gap: '5%'}}>
+                <Typography className={classes.title}>
                   {task.title}
                 </Typography>
-                <div>Duration:</div>
-                <Box>{hours} {hours === '1' ? 'hour' : 'hours'}</Box>
-                <Box>{minutes} {minutes === '1' ? 'minute' : 'minutes'}</Box>
+                <div className={classes.duration}>
+                  <div>Duration: {hours} {hours === '1' ? 'hour' : 'hours'} {minutes} {minutes === '1' ? 'minute' : 'minutes'}</div>
+                </div>
               </div>
-              <Typography>
+              <Typography className={classes.description}>
                 {task.description}
               </Typography>
-            <CardActions>
-              <Button variant="contained" size="small" onClick={() => setModalOpen(true)}>Edit</Button>
-            </CardActions>
+              <CardActions className={classes.buttonContainer}>
+                <Button className={classes.editButton} variant="contained" size="small" onClick={() => setModalOpen(true)}>Edit</Button>
+              </CardActions>
             </CardContent>
           </Card>
         </Grid>
