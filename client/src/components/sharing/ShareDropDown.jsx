@@ -65,7 +65,7 @@ function DisplaySharedWithUserDropdown({userEmail}) {
 
   useEffect(async () => {
     if (userEmail) {
-      await axios.get('http://localhost:3000/share/sharedByUser', {
+      await axios.get('/share/sharedByUser', {
         params: {email: userEmail},
         withCredentials: true
       }).then((values) => {
@@ -92,7 +92,7 @@ function DisplaySharedWithUserDropdown({userEmail}) {
 
   const handleEmailRemove = (e) => async () => {
     const currentIndex = shares.indexOf(e);
-    await axios.delete('http://localhost:3000/share/deleteFromShares', {
+    await axios.delete('/share/deleteFromShares', {
       params: {email: [userEmail, e.shared_to]},
       withCredentials: true
     }).then((result) => {
@@ -109,7 +109,7 @@ function DisplaySharedWithUserDropdown({userEmail}) {
       alert('can not add yourself');
     }
     else {
-      await axios.post('http://localhost:3000/share/insertToShares', {
+      await axios.post('/share/insertToShares', {
         email: [userEmail, emailToAdd],
         withCredentials: true
       }).then((result) => {

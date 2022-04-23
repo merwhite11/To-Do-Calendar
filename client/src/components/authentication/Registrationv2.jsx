@@ -79,7 +79,7 @@ const Login = () => {
   const handleRegister = async () => {
     let isValid = await validation();
     if (isValid) {
-      await axios.post('http://localhost:3000/auth/register', {
+      await axios.post('/auth/register', {
         'firstName': state['firstName'], 'lastName': state['lastName'],
         'email': state['email'], 'password': state['password']
       }, {withCredentials: true}).then((res) => {

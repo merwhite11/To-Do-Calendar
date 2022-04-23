@@ -48,7 +48,7 @@ const TopBar = ({userEmail, isLoading, setIsLoggedIn, isLoggedIn, isMobile, onCa
   const handleCloseUserMenu = (e) => {
     setAnchorElUser(null);
     if (e.target.innerHTML === 'Logout') {
-      axios.get('http://localhost:3000/auth/logout', {withCredentials: true})
+      axios.get('/auth/logout', {withCredentials: true})
       .then((res) => {
         if (res.data === false) {
           setIsLoggedIn(false)
@@ -83,7 +83,7 @@ const TopBar = ({userEmail, isLoading, setIsLoggedIn, isLoggedIn, isMobile, onCa
               </IconButton>}
           </Box>
           <Box style={{margin: '0 auto', display: "flex"}}>
-            <Avatar variant="square" src={'http://localhost:3001/images/x-icon/todocal - logo.ico'}
+            <Avatar variant="square" src={'/images/x-icon/todocal - logo.ico'}
                 style={{width:'50px', height:'50px'}}/>
           </Box>
          <Box sx={{ flexGrow: 0 }}>
