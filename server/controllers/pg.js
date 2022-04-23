@@ -26,6 +26,27 @@ const getInfo = async (email, callback) => {
   })
 };
 
+const postNewUser = (email, callback) => {
+  (async () => {
+    const client = await pool.connect()
+    try {
+      await client.query(query.insertNewUser, [email])
+      .then((response) => {
+        console.log('response from insert new user:', response.rows[0].user_id);
+        client.query(query.insertNewCal, [response.rows[0].user_id, email])
+        .then((response) => {
+          console.log('response from insert new cal:', response.rows[0]);
+          callback(null, response.rows[0]);
+        })
+      });
+    } finally {
+      client.release();
+    }
+  })().catch((err) => {
+    console.log(err.stack)
+  })
+};
+
 const getSharedWithUser = async function (email) {
   const client = await pool.connect()
   try {
@@ -173,6 +194,7 @@ const deleteCategory = (categoryId, callback) => {
   })
 };
 
+
 module.exports = {
   getInfo,
   postCategory,
@@ -184,5 +206,6 @@ module.exports = {
   getSharedWithUser,
   getSharedByUser,
   insertToShares,
-  deleteFromShares
+  deleteFromShares,
+  postNewUser
 }

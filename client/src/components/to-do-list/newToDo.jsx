@@ -41,6 +41,7 @@ var AddToDoModal = (props) => {
   }
 
   const handleAddTodo = () => {
+    console.log('in handle Add To Do');
     let newItem = {};
 
     newItem.title = title;
@@ -50,17 +51,14 @@ var AddToDoModal = (props) => {
     newItem.category_id = category;
     newItem.in_calendar = false;
 
-    let hours = endDate.getHours() - startDate.getHours();
-    let minutes = endDate.getMinutes() - startDate.getMinutes();
-    if (minutes < 0) {
-      const convertedHours = (hours * 60) + minutes;
-      hours = Math.floor(convertedHours/60);
-      minutes = convertedHours % 60;
-    };
-    const duration = hours + ':' + minutes;
-    console.log('duration: ', duration);
-    newItem.duration = duration;
+    // duration fix
+    var durationinSeconds = (endDate - startDate) / 1000;
+    var durationInMinutes = durationinSeconds / 60;
+    var durationMinuteRemainder = Math.abs(durationInMinutes % 60);
+    var durationInHours = Math.abs(Math.floor(durationInMinutes / 60));
+    var duration = durationInHours + ':' + durationMinuteRemainder;
 
+    newItem.duration = duration;
     props.addTodo(newItem);
     props.closeCat(false);
   }

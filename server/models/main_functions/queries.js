@@ -102,4 +102,15 @@ module.exports = {
     WHERE category_id = $1;
   `,
 
+  userExists: `
+    SELECT user_id FROM users WHERE user_email = $1
+  `,
+
+  insertNewUser: `
+    INSERT INTO users (user_email) VALUES ($1) RETURNING user_id
+  `,
+
+  insertNewCal: `
+    INSERT INTO calendars (user_id, calendar_owner) VALUES ($1, $2) RETURNING calendar_id
+  `
 }

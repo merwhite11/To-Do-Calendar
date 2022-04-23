@@ -46,8 +46,17 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
     }
     await axios.get('http://localhost:3000/todoList/info', { params: { email: user } })
       .then((response) => {
-        setMyEvents(response.data.results[0].calendars[0]);
-        setUserCalendar(response.data.results[0].calendars[0]);
+        if (response.data.results.length === 0) {
+          axios.post('http://localhost:3000/todoList/newUser', { params: { email: user } })
+            .then(() => {
+              getAllTodos(user);
+            }).catch((err) => {
+              return err;
+            })
+        } else {
+          setMyEvents(response.data.results[0].calendars[0]);
+          setUserCalendar(response.data.results[0].calendars[0]);
+        }
       })
       .then(() => {
         setHasData(true);
@@ -104,14 +113,9 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
   }
 
   const addCategory = async (category) => {
-
     let incomingId;
 
     incomingId = userCalendar.calendar_id;
-
-    console.log(incomingId);
-    console.log('userCalendar: ', userCalendar);
-    console.log(category);
 
     await axios.post('http://localhost:3000/todoList/category', { params: { calendar_id: incomingId, category: category } })
       .then((result) => {
@@ -289,7 +293,8 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
         <div>
           {naviBar}
           <div className="">
-            {myEvents.length ? toDoList : null}
+            {/* {myEvents.length ? toDoList : null} */}
+            {toDoList}
           </div>
         </div>
       )
@@ -299,7 +304,8 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
         <div>
           {naviBar}
           <div>
-            {myEvents.length ? myCalendar : null}
+            {/* {myEvents.length ? myCalendar : null} */}
+            {myCalendar}
           </div>
         </div>
       )
