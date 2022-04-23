@@ -12,7 +12,7 @@ import { result } from '../../../database/example.js';
 const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sharedBy }) => {
 
   const [allTodos, setAllTodos] = useState([]);
-  const [myEvents, setMyEvents] = useState(result.calendars[0].categories);
+  const [myEvents, setMyEvents] = useState([]);
   const [onCalendar, setOnCalendar] = useState(false);
   const [draggedEvent, setDraggedEvent] = useState();
   // Data present in 'a@a.com'
@@ -32,7 +32,8 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
           setEmail(result.data.info);
           await axios.get('http://localhost:3000/todoList/info', { params: { email: result.data.info } })
             .then((response) => {
-              setMyEvents(response.data.results[0].calendars[0].categories);
+              const updatedList = response.data.results[0].calendars[0].categories
+              setMyEvents(updatedList);
             })
             .then(() => setHasData(true))
             .catch((err) => {
@@ -53,9 +54,12 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
   //
   // GET '/todoList/:userEmail' -> For all data
   const getAllTodos = (user) => {
+    console.log('get all todos')
     axios.get('http://localhost:3000/todoList/info', { params: { email: userEmail } })
       .then((result) => {
+        console.log('result', result.data.results[0].calendars[0].categories)
           setMyEvents(result.data.results[0].calendars[0].categories);
+          console.log('myEvents', myEvents)
         })
         .catch(err => console.error(err));
   }
@@ -63,6 +67,7 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
   // POST '/todoList/:userEmail' -> Adding or Upserting a "todoList item"
   //modified to use actual user email
   const addTodo = (todo) => {
+    console.log('add todo', todo)
     axios.post('http://localhost:3000/todoList/item', { params: { userEmail: userEmail }, data: todo })
       .then((result) => {
         getAllTodos(userEmail)

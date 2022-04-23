@@ -57,6 +57,13 @@ function Category({tasks, isMobile, draggedEvent, setDraggedEvent, handleDragSta
 
   // convertDuration(accumulation)
 
+  const newTask = {
+    title: '',
+    description: '',
+    start: new Date(),
+    end_date: new Date(),
+    in_calendar: false
+  }
   return (
     <Container>
       <Paper elevation={2} className={classes.paper}>
@@ -67,8 +74,8 @@ function Category({tasks, isMobile, draggedEvent, setDraggedEvent, handleDragSta
             setModalOpen(true);
           }}>Add Task</Button>
           {modalOpen === true &&
-          <TaskOptionsModal setModalOpen={setModalOpen} modalOpen={modalOpen} task={''}
-          categoryId={categoryId} addTodo ={addTodo} updateTodo={updateTodo}
+          <TaskOptionsModal setModalOpen={setModalOpen} modalOpen={modalOpen} task={newTask}
+          categoryId={catId} addTodo ={addTodo} updateTodo={updateTodo}
           deleteTodo={deleteTodo} newTodo={true}/>}
         </Container>
         <Container sx={{ display: 'inline-block'}}>

@@ -46,9 +46,9 @@ const useStyles = makeStyles({
 });
 
 var TaskOptionsModal = (props) => {
-  const [userTask, setUserTask] = useState(props.task || {})
-  const [todoTitle, setTodoTitle] = useState(props.task.title || '');
-  const [todoDescription, setTodoDescription] = useState(props.task.description || '');
+  const [userTask, setUserTask] = useState(props.task)
+  const [todoTitle, setTodoTitle] = useState(props.task.title);
+  const [todoDescription, setTodoDescription] = useState(props.task.description);
   const [startTime, setStartTime] = useState(props.task.start);
   const [endTime, setEndTime] = useState(props.task.end_date);
   const [inCalendar, setInCalendar] = useState(props.task.in_calendar || false);
@@ -130,12 +130,12 @@ var TaskOptionsModal = (props) => {
           <TextField multiline label="Description" className={classes.input} defaultValue={props.task.description} onChange={(newValue) => handleTextInput(newValue, 'description')}/>
 
           <DesktopDateTimePicker renderInput={(props) => <TextField className={classes.input} {...props} />} label="Start Time"
-            value={userTask.start} onChange={(newValue) => {
-              handleTimeChange(newValue, 'start')
+            value={startTime} onChange={(newValue) => {
+              // handleTimeChange(newValue, 'start')
               setStartTime(newValue)}} />
           <DesktopDateTimePicker renderInput={(props) => <TextField className={classes.input} {...props} />} label="End Time"
-            value={userTask.end_date} onChange={(newValue) => {
-              handleTimeChange(newValue, 'end_date')
+            value={endTime} onChange={(newValue) => {
+              // handleTimeChange(newValue, 'end_date')
               setEndTime(newValue)}}/>
 
           <Container className={classes.container}>

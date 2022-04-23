@@ -13,20 +13,20 @@ module.exports = {
   output: { path: path.resolve(__dirname, "client", "dist") },
   mode: 'development',
   devtool: 'source-map',
-  plugins: [
-    new CompressionPlugin({
-      algorithm: 'gzip',
-      test: /\.js$|\.css$|\.html$/,
-      threshold: 10240,
-      minRatio: 0.8
-    }),
-    new BrotliPlugin({
-      asset: '[path].br[query]',
-      test: /\.(js|css|html|svg)$/,
-      threshold: 10240,
-      minRatio: 0.8
-    })
-  ],
+  // plugins: [
+  //   new CompressionPlugin({
+  //     algorithm: 'gzip',
+  //     test: /\.js$|\.css$|\.html$/,
+  //     threshold: 10240,
+  //     minRatio: 0.8
+  //   }),
+  //   new BrotliPlugin({
+  //     asset: '[path].br[query]',
+  //     test: /\.(js|css|html|svg)$/,
+  //     threshold: 10240,
+  //     minRatio: 0.8
+  //   })
+  // ],
   module: {
     rules: [
       {
