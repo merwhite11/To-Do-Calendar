@@ -66,9 +66,10 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
   }
 
   const updateTodo = async (todo) => {
-    console.log('Update Todo: ', todo);
+    // console.log('Update Todo: ', todo);
     await axios.put('http://localhost:3000/todoList/updateItem', { params: { userEmail: userEmail }, data: todo })
       .then((result) => {
+        getAllTodos()
         console.log(result);
       })
       .catch(err => console.error(err));

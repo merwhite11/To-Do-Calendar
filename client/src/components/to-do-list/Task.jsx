@@ -25,6 +25,8 @@ function Task({task, isMobile, draggedEvent, setDraggedEvent, handleDragStart, c
 
   const [todo, setTodo] = useState(task);
   const [modalOpen, setModalOpen] = useState(false);
+  const [startTime, setStartTime] = useState(task.start);
+  const [endTime, setEndTime] = useState(task.end_date);
   const [hours, setHours] = useState();
   const [minutes, setMinutes] = useState();
 
@@ -45,8 +47,31 @@ function Task({task, isMobile, draggedEvent, setDraggedEvent, handleDragStart, c
   }
 
   const updateTask = (task) => {
-    setTodo(task);
-    newTodo(task);
+    console.log('task in updateTask', task)
+    const todoCopy = todo;
+    todoCopy.title = task.title;
+    todoCopy.description = task.description;
+    todoCopy.start = task.start || new Date();
+    todoCopy.end_date = task.end_date || new Date();
+    todoCopy.in_calendar = task.in_calendar;
+    todoCopy.category_id = task.category_id;
+
+    let hours = endTime.getHours() - startTime.getHours();
+    let minutes = endTime.getMinutes() - startTime.getMinutes();
+
+    if (minutes < 0) {
+      const convertedHours = (hours * 60) + minutes;
+      hours = Math.floor(convertedHours/60);
+      minutes = convertedHours % 60;
+    }
+
+    const duration = hours + ':' + minutes;
+    todoCopy.duration = duration;
+    console.log('duration', duration)
+    convertDuration(duration)
+    // setTodo(task);
+    // newTodo(todoCopy);
+    setTodo(todoCopy)
   }
 
   const classes = useStyles();
@@ -55,9 +80,10 @@ function Task({task, isMobile, draggedEvent, setDraggedEvent, handleDragStart, c
     convertDuration(todo.duration);
   }, []);
 
-  const newTodo = useCallback((todo) => {
-    convertDuration(todo.duration)
-  }, [todo]);
+  // const newTodo = useCallback((todo) => {
+  //   console.log('todo.duration in cb', todo.duration)
+  //   convertDuration(todo.duration)
+  // }, [todo]);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>

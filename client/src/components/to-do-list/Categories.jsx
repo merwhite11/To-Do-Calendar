@@ -1,7 +1,8 @@
 import React from 'react';
 import Category from './Category.jsx';
 
-function Categories({isMobile, taskData, draggedEvent, setDraggedEvent, handleDragStart, addTodo, updateTodo, deleteTodo, deleteCategory}) {
+function Categories({isMobile, taskData, draggedEvent, setDraggedEvent, handleDragStart,
+  addTodo, updateTodo, deleteTodo, deleteCategory}) {
   return (
     taskData.length ? taskData.map((category, i) => {
       return <Category key={i}

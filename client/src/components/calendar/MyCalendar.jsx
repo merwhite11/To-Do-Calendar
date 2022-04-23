@@ -35,7 +35,7 @@ const MyCalendar = (props) => {
     )
   }
 
-  console.log(props.myEvents);
+  // console.log(props.myEvents);
 
   return (
     <>
