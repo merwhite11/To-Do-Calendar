@@ -68,9 +68,9 @@ function Task({task, isMobile, draggedEvent, setDraggedEvent, handleDragStart, c
     const duration = hours + ':' + minutes;
     todoCopy.duration = duration;
     console.log('duration', duration)
-    convertDuration(duration)
+
     // setTodo(task);
-    // newTodo(todoCopy);
+    // newTodo(task);
     setTodo(todoCopy)
   }
 
@@ -80,10 +80,10 @@ function Task({task, isMobile, draggedEvent, setDraggedEvent, handleDragStart, c
     convertDuration(todo.duration);
   }, []);
 
-  // const newTodo = useCallback((todo) => {
-  //   console.log('todo.duration in cb', todo.duration)
-  //   convertDuration(todo.duration)
-  // }, [todo]);
+  const newTodo = useCallback((todo) => {
+    console.log('todo.duration in call', todo.duration)
+    convertDuration(todo.duration)
+  }, [todo]);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>

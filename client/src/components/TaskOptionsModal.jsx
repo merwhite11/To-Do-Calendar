@@ -82,7 +82,6 @@ var TaskOptionsModal = (props) => {
 
     props.newTodo ? props.addTodo(userTask) : (props.updateTodo(userTask), props.updateTask(userTask));
     props.setModalOpen(false);
-
   }
 
   const handleAddTo = () => {
