@@ -18,9 +18,7 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
   // Data present in 'a@a.com'
   const [userEmail, setEmail] = useState(null);
   const [hasData, setHasData] = useState(false);
-
   const [userCalendar, setUserCalendar] = useState(false);
-
   const [sharedEvents, setSharedEvents] = useState([]);
   const [viewingShared, setViewingShared] = useState(false);
 

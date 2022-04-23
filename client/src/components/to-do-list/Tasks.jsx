@@ -3,7 +3,7 @@ import Task from './Task.jsx';
 
 function Tasks({tasks, isMobile, updateTodo, deleteTodo, draggedEvent, setDraggedEvent, handleDragStart, modalOpen, setModalOpen}) {
   // console.log('tasks in tasks', tasks)
-  const onListTasks = tasks.filter(task => !task.in_calendar)
+  // const onListTasks = tasks.filter(task => !task.in_calendar)
   // console.log('onListTasks', onListTasks)
 
   const formatTask = (task) => {
