@@ -4,7 +4,6 @@ import { Button, makeStyles, Link, Avatar, TextField, Paper, Typography, Contain
 import GoogleIcon from '@mui/icons-material/Google';
 import loginSchema from './LoginValidation.js';
 import axios from 'axios'
-// import img from 'http://localhost:3001/images/x-icon/todocal - logo.ico';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,12 +42,13 @@ const Login = ({setEmail, isLoggedIn, setIsLoggedIn}) => {
     'password': state['password'],
     'email': state['email'],
   }
+
   useEffect(() => {
-    // console.log('is log in:', isLoggedIn)
     if (isLoggedIn) {
-      navigate('/')
+      navigate('/');
     }
   }, [isLoggedIn])
+
   const validation = async () => {
       loginSchema.validate(formData).catch((err) => {
       setFormErr(err.errors[0].split(' ')[0]);
@@ -57,6 +57,7 @@ const Login = ({setEmail, isLoggedIn, setIsLoggedIn}) => {
     let isValid = await loginSchema.isValid(formData);
     return isValid;
   }
+
   useEffect(() => {
     if (isMounted.current) {
       validation();
@@ -65,105 +66,102 @@ const Login = ({setEmail, isLoggedIn, setIsLoggedIn}) => {
     }
   }, [state])
 
-
-
   const handleChange =  (e) => {
     setFormErr('');
     const { name, value } = e.target;
-        setState((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }))
+    setState((prevState) => ({
+        ...prevState,
+        [name]: value,
+    }));
   }
 
   const handleLogin = async () => {
     let isValid = await validation();
-    if (!isValid) {
-      // console.log('cannot submit')
-    } else {
-      await axios.post('http://localhost:3000/auth/login', {'email': state['email'], 'password': state['password']}, {withCredentials: true})
-      .then((res) => {
-        // console.log('response:', res.data);
+    if (isValid) {
+      await axios.post('http://localhost:3000/auth/login', {
+        'email': state['email'], 'password': state['password']}, {withCredentials: true}
+      ).then((res) => {
         if(res.data === true) {
           setIsLoggedIn(true);
           setEmail(state['email']);
-          navigate('/')
+          navigate('/');
         } else {
           setFormErr('email');
-          setErrMsg("Email doesn't exist or Incorrect password")
+          setErrMsg("Email doesn't exist or Incorrect password");
         }
+      }).catch((err) => {
+        alert('login err:', err);
       })
-      .catch((err) => {
-        console.log('login err:', err);
-      })
+    } else {
+      alert ('Invalid login submission');
     }
   }
   const handleGoogleLogin = async () => {
-    window.open('http://localhost:3000/auth/google')
+    window.open('http://localhost:3000/auth/google');
   }
 
   return (
     <Container component="main">
-          <Grid container >
-            <Paper elevation={10} className={classes.paper}>
-              <Grid item align='center'>
-                <Avatar
-                  variant="square"
-                  src={'http://localhost:3001/images/x-icon/todocal - logo.ico'}
-                  style={{width:'120px', height:'100px'}}/>
-                <h1 style={{color:'#545863'}}><i>Sign In</i></h1>
-              </Grid>
-              <TextField
-                name='email'
-                error={formErr === 'email' ? true : false}
-                placeholder='Enter email address'
-                label="Email"
-                variant="outlined"
-                value={state["email"]}
-                require = 'true'
-                helperText={formErr === 'email' ? errMsg : ''}
-                fullWidth
-                className={classes.fieldGap}
-                onChange={(e)=>(handleChange(e))}
-              />
-              <TextField
-                name='password'
-                value={state['password']}
-                error={formErr === 'password' ? true : false}
-                placeholder='Enter Password'
-                label="Password"
-                variant="outlined"
-                type='password'
-                helperText={formErr === 'password' ? errMsg : ''}
-                require = 'true'
-                fullWidth
-                className={classes.fieldGap}
-                onChange={(e)=>(handleChange(e))}
-              />
-              <Button
-                className={classes.btnStyle}
-                type='submit' color='primary'
-                variant="contained"
-                fullWidth
-                onClick={() => (handleLogin())}
-                >
-                 Sign in
-              </Button>
-              <Button
-                startIcon={<GoogleIcon />}
-                type='submit' color='primary'
-                variant="contained"
-                fullWidth
-                onClick={() => (handleGoogleLogin())}
-                >
-                 Sign in with google
-               </Button>
-              <Typography className={classes.bottomMsg}>
-                    Don't have an account? &nbsp;&nbsp;
-                  <Link  href='#' variant="body1" onClick={() => {navigate('/signup')}}>Sign up</Link>
-              </Typography>
-            </Paper>
+      <Grid container >
+        <Paper elevation={10} className={classes.paper}>
+          <Grid item align='center'>
+            <Avatar
+              variant="square"
+              src={'http://localhost:3001/images/x-icon/todocal - logo.ico'}
+              style={{width:'120px', height:'100px'}}/>
+            <h1 style={{color:'#545863'}}><i>Sign In</i></h1>
           </Grid>
+          <TextField
+            name='email'
+            error={formErr === 'email' ? true : false}
+            placeholder='Enter email address'
+            label="Email"
+            variant="outlined"
+            value={state["email"]}
+            require = 'true'
+            helperText={formErr === 'email' ? errMsg : ''}
+            fullWidth
+            className={classes.fieldGap}
+            onChange={(e)=>(handleChange(e))}
+          />
+          <TextField
+            name='password'
+            value={state['password']}
+            error={formErr === 'password' ? true : false}
+            placeholder='Enter Password'
+            label="Password"
+            variant="outlined"
+            type='password'
+            helperText={formErr === 'password' ? errMsg : ''}
+            require = 'true'
+            fullWidth
+            className={classes.fieldGap}
+            onChange={(e)=>(handleChange(e))}
+          />
+          <Button
+            className={classes.btnStyle}
+            type='submit' color='primary'
+            variant="contained"
+            fullWidth
+            onClick={() => (handleLogin())}
+            >
+              Sign in
+          </Button>
+          <Button
+            startIcon={<GoogleIcon />}
+            type='submit' color='primary'
+            variant="contained"
+            fullWidth
+            onClick={() => (handleGoogleLogin())}
+            >
+              Sign in with google
+            </Button>
+          <Typography className={classes.bottomMsg}>
+                Don't have an account? &nbsp;&nbsp;
+              <Link  href='#' variant="body1" onClick={() => {navigate('/signup')}}>Sign up</Link>
+          </Typography>
+        </Paper>
+      </Grid>
     </Container>
   );
 }

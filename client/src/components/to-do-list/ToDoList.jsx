@@ -23,11 +23,8 @@ const useStyles = makeStyles({
 });
 
 function ToDoList({isMobile, draggedEvent, setDraggedEvent, handleDragStart, taskData, addCategory, addTodo, updateTodo, deleteTodo}) {
-
   const [newCatModalOpen, setNewCatModalOpen] = useState(false);
   const [newToDoModalOpen, setNewToDoModalOpen] = useState(false);
-  // console.log('taskData in todolist', taskData)
-
   const classes = useStyles();
 
   const openSetNewCat = (boo) => {
@@ -39,7 +36,6 @@ function ToDoList({isMobile, draggedEvent, setDraggedEvent, handleDragStart, tas
   }
 
   const openSetNewToDo = (boo) => {
-    console.log('boo', boo)
     if (boo === false) {
       setNewToDoModalOpen(false);
     } else {

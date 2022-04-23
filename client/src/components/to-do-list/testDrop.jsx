@@ -5,9 +5,7 @@ import Task from './Task.jsx';
 import {useDrop} from 'react-dnd';
 import "./styles.scss"
 
-
 function Drop({tasks}) {
-  // console.log('drop tasks', tasks)
   const [board, setBoard] = useState([]);
   const[{isOver}, drop] = useDrop(() => ({
     accept: "task",
@@ -17,20 +15,10 @@ function Drop({tasks}) {
     }),
   }));
   const addTaskToBoard = (item) => {
-    // console.log('id addTaskToBoard', item);
-    // console.log('board in addTask', tasks)
-    // const draggedTasks = board.filter((task) => {
-    //   console.log('item.id', item.id)
-    //   console.log('task.index', task.index)
-    //   item.id === task.index
-    // }
-    // );
-    // console.log('draggedTasks', draggedTasks)
     setBoard(board => board.concat(item))
   };
   return <div id="drop-board" ref={drop} style={{border: isOver ? "5px solid pink" : "10px solid red"}}>drop board
     {board?.map((item, i) => {
-      // console.log('board map task', item)
       return <Task key={i} index={item.id}/>
     })}
   </div>

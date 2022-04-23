@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback, Suspense } from 'react';
 import { Button, Box, Grid, Card, CardHeader, CardContent, CardActions, Collapse, makeStyles, Typography, Toolbar, TextField,  TextareaAutosize, Stack } from '@material-ui/core';
 const TaskOptionsModal = React.lazy(() => import('../TaskOptionsModal.jsx'));
 
-//on hover over editable field -- pen icon or underline
 const useStyles = makeStyles({
   grid: {
     display: 'inline-block',
@@ -30,23 +29,22 @@ function Task({task, isMobile, draggedEvent, setDraggedEvent, handleDragStart, c
   const [minutes, setMinutes] = useState();
 
   const convertDuration = (duration) => {
-    const splitDuration = duration.split(':')
-    let hours = splitDuration[0]
-    const hoursDigits = hours.split('')
+    const splitDuration = duration.split(':');
+    let hours = splitDuration[0];
+    const hoursDigits = hours.split('');
     if (hoursDigits[0] === '0' && hoursDigits.length === 2) {
-      hours = hoursDigits[1]
-    }
-    let minutes = splitDuration[1]
+      hours = hoursDigits[1];
+    };
+    let minutes = splitDuration[1];
     const minutesDigits = minutes.split('')
     if (minutesDigits[0] === '0') {
-      minutes = minutesDigits[1]
-    }
-    setHours(hours)
-    setMinutes(minutes)
+      minutes = minutesDigits[1];
+    };
+    setHours(hours);
+    setMinutes(minutes);
   }
 
   const updateTask = (task) => {
-    console.log('updateTask: ', task);
     setTodo(task);
     newTodo(task);
   }
@@ -54,13 +52,12 @@ function Task({task, isMobile, draggedEvent, setDraggedEvent, handleDragStart, c
   const classes = useStyles();
 
   useEffect(() => {
-    convertDuration(todo.duration)
-  }, [])
+    convertDuration(todo.duration);
+  }, []);
 
   const newTodo = useCallback((todo) => {
-    console.log('newTodo: ', todo);
     convertDuration(todo.duration)
-  }, [todo])
+  }, [todo]);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>

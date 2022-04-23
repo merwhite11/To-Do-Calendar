@@ -4,10 +4,6 @@ const query = require('.././models/main_functions/queries.js');
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
 
-// user: postgres
-// host: '54.209.199.189',
-// port: '5432',
-// database: 'tododb',
 const pool = new Pool({
   user: process.env.PGUSER,
   password: process.env.PGPASS,
@@ -16,7 +12,6 @@ const pool = new Pool({
   host: process.env.PGHOST
 });
 
-console.log('should be host', process.env.PGHOST)
 const getInfo = async (email, callback) => {
   (async () => {
     const client = await pool.connect()
@@ -56,8 +51,6 @@ const getSharedByUser = async function (email) {
 const insertToShares = async function (userEmail, emailToAdd) {
   const client = await pool.connect();
   var values = [...userEmail];
-  console.log('attempting to add these values: ', values);
-  console.log('with this query: ', query.insertToShares);
   try {
     return await client.query(query.insertToShares, [values[0], values[1]]);
   } catch (err) {

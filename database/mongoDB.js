@@ -16,9 +16,7 @@ mongoose.connect('mongodb://localhost/bocauth', { useNewUrlParser: true,
     username: String,
     password: String,
   });
-  // const secret = 'somelongstring';
-  // userSchema.plugin(encrypt, { secret: secret, encryptedFields: ['password'] });
-  // userSchema.plugin(passportLocalMongoose);
+
   const userModel = mongoose.model('userModel', userSchema);
 
   module.exports.userModel = userModel;

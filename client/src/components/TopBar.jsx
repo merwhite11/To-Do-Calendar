@@ -16,7 +16,6 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
-// import img from '../../dist/images/todocal - logo.png';
 import CircularProgress from '@mui/material/CircularProgress';
 import ShareWithOthers from './sharing/ShareDropDown.jsx';
 import ViewShares from './sharing/SharedWithUserDropdown.jsx';
@@ -39,7 +38,6 @@ const TopBar = ({userEmail, isLoading, setIsLoggedIn, isLoggedIn, isMobile, onCa
     pages = ['Calendar']
   }
   const handleOpenUserMenu = (event) => {
-    // console.log('trigger open menu:', event.currentTarget)
     setAnchorElUser(event.currentTarget);
   };
 
@@ -48,12 +46,10 @@ const TopBar = ({userEmail, isLoading, setIsLoggedIn, isLoggedIn, isMobile, onCa
   };
 
   const handleCloseUserMenu = (e) => {
-    // console.log('trigger close menu:', e.target.innerHTML)
     setAnchorElUser(null);
     if (e.target.innerHTML === 'Logout') {
       axios.get('http://localhost:3000/auth/logout', {withCredentials: true})
       .then((res) => {
-        // console.log('log out res:', res.data)
         if (res.data === false) {
           setIsLoggedIn(false)
         }

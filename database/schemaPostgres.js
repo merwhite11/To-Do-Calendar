@@ -8,27 +8,12 @@ const config = {
   port: 5432,
   host: '54.209.199.189'
 }
-console.log(process.env.PGPASS)
-// let client = new pg.Client(config)
-// client.connect()
-// .then(() => console.log('connect to database'))
-// .catch((err) => console.log('error in connect to db', err))
-//drop db, if needed uncomment to use
 
-// pgtools.dropdb(config, 'tododb', function (err, res) {
-//   if (err) {
-//     console.error(err);
-//     process.exit(-1);
-//   }
-//   console.log(res);
-// });
-console.log('pgtools', pgtools)
 pgtools.createdb(config, 'tododb', function (err, res) {
   if (err) {
     console.error(err);
     process.exit(-1);
   }
-  console.log(res, 'created tables');
   addTables();
 });
 
@@ -38,8 +23,8 @@ let addTables = function() {
 
    const execute = async (query) => {
     try {
-        await db.connect();     // gets connection
-        await db.query(query);  // sends queries
+        await db.connect();
+        await db.query(query);
         return true;
     } catch (error) {
         console.error(error.stack);
@@ -61,7 +46,6 @@ let addTables = function() {
       PRIMARY KEY ("category_id")
     );`;
 
-    //removed camel case from inCalendar, as postgres doesn't like camelcase
   const queryText3 = `
     CREATE TABLE IF NOT EXISTS "todoitems" (
       "id" SERIAL,
@@ -78,7 +62,6 @@ let addTables = function() {
           REFERENCES categories("category_id")
     );`;
 
-    //removed camel case from userToDoLookup, as postgres doesn't like camelcase
     const queryText4 = `
     CREATE TABLE IF NOT EXISTS "user_todo_lookup" (
       "user_id" INT NOT NULL,
@@ -94,19 +77,15 @@ let addTables = function() {
 
     execute(queryText1)
       .then(function(result) {
-        console.log('user table created: ', result);
         return execute(queryText2);
       })
       .then(function(result) {
-        console.log('category table created: ', result);
         return execute(queryText3);
       })
       .then(function(result) {
-        console.log('to do item table created: ', result);
         return execute(queryText4);
       })
       .then(function(result) {
-        console.log('lookup table created: ', result);
         db.end();
       })
 }

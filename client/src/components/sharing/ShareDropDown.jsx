@@ -64,17 +64,13 @@ function DisplaySharedWithUserDropdown({userEmail}) {
   }
 
   useEffect(async () => {
-    // console.log(currentUser);
     if (userEmail) {
-      console.log('share drop down use triggered');
       await axios.get('http://localhost:3000/share/sharedByUser', {
         params: {email: userEmail},
         withCredentials: true
-
       }).then((values) => {
         setShares(values.data);
         setSharesCheck((values.data).toString());
-
       }).catch((err) => {
         setSharesCheck(sharedEmailsArray.toString());
         setCurrentUser(null);
@@ -89,6 +85,7 @@ function DisplaySharedWithUserDropdown({userEmail}) {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -103,10 +100,9 @@ function DisplaySharedWithUserDropdown({userEmail}) {
       newShares.splice(currentIndex, 1);
       setShares(newShares);
     }).catch((err) => {
-      console.log(err);
+      throw err;
     });
   };
-
 
   const handleEmailAdd = async (emailToAdd) => {
     if (emailToAdd === currentUser) {
@@ -125,7 +121,6 @@ function DisplaySharedWithUserDropdown({userEmail}) {
       });
     }
   };
-
 
   return (
     <div>
