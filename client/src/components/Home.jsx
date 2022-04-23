@@ -18,8 +18,12 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
   // Data present in 'a@a.com'
   const [userEmail, setEmail] = useState(null);
   const [hasData, setHasData] = useState(false);
+
+  const [userCalendar, setUserCalendar] = useState(false);
+
   const [sharedEvents, setSharedEvents] = useState([]);
   const [viewingShared, setViewingShared] = useState(false);
+
 
   const navigate = useNavigate()
 
@@ -32,8 +36,8 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
           setEmail(result.data.info);
           await axios.get('http://localhost:3000/todoList/info', { params: { email: result.data.info } })
             .then((response) => {
-              const updatedList = response.data.results[0].calendars[0].categories
-              setMyEvents(updatedList);
+              setMyEvents(response.data.results[0].calendars[0].categories);
+              setUserCalendar(response.data.results[0].calendars[0]);
             })
             .then(() => setHasData(true))
             .catch((err) => {
@@ -65,7 +69,6 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
   }
 
   // POST '/todoList/:userEmail' -> Adding or Upserting a "todoList item"
-  //modified to use actual user email
   const addTodo = (todo) => {
     console.log('add todo', todo)
     axios.post('http://localhost:3000/todoList/item', { params: { userEmail: userEmail }, data: todo })
@@ -109,21 +112,15 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
 
     let incomingId;
 
-    if (info.length > 0) {
-      incomingId = info.calendars[0].calendar_id;
-    } else {
-      incomingId = 11;
-    }
+    incomingId = userCalendar.calendar_id;
 
     axios.post('http://localhost:3000/todoList/category', { params: { calendar_id: incomingId, category: category } })
       .then((result) => {
-        console.log('cat post result: ', result);
         let catId = result.data.category_id;
         let newCat = { category_id: catId, category: category, todoitems: [] };
-        let newEventsList = myEvents[0];
+        let newEventsList = myEvents;
         newEventsList.push(newCat);
         setMyEvents(newEventsList);
-        console.log('new event list: ', myEvents);
       })
       .catch(err => console.error(err));
   }
@@ -280,8 +277,6 @@ const Home = ({ setIsLoading, isMobile, isLoggedIn, isLoading, setIsLoggedIn, sh
   const myCalendar = (<MyCalendar myEvents={myEvents} moveEvent={moveEvent} resizeEvent={resizeEvent}
     changeTitle={changeTitle} onDropFromOutside={onDropFromOutside} sharedEvents={sharedEvents}
     viewingShared={viewingShared}/>);
-
-
 
   // Conditional Rendering based on device
   const renderContent = () => {

@@ -32,13 +32,13 @@ var AddToDoModal = (props) => {
   const [title, setTitle] = useState(null);
   const [description, setDescription] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(null);
+  const [endDate, setEndDate] = useState(new Date());
   const [category, setCategory] = useState('');
 
   let userCats = [];
 
-  if (props.info.calendars) {
-    userCats = props.info.calendars[0].categories;
+  if (props.taskData) {
+    userCats = props.taskData;
   }
 
   const handleAddTodo = () => {
@@ -60,6 +60,7 @@ var AddToDoModal = (props) => {
       minutes = convertedHours % 60
     };
     const duration = hours + ':' + minutes;
+    console.log('duration: ', duration);
     newItem.duration = duration;
 
     props.addTodo(newItem);
