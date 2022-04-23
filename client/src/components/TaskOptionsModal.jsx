@@ -68,16 +68,11 @@ var TaskOptionsModal = (props) => {
     taskCopy.end_date = userTask.end_date || new Date();
     taskCopy.in_calendar = inCalendar;
     taskCopy.category_id = props.categoryId;
-
-    var durationinSeconds = (endTime - startTime) / 1000;
-    var durationInMinutes = durationinSeconds / 60;
-    var durationMinuteRemainder = Math.abs(durationInMinutes % 60);
-    var durationInHours = Math.abs(Math.floor(durationInMinutes / 60));
-
-    var duration = durationInHours + ':' + durationMinuteRemainder;
-
-    taskCopy.duration = duration;
-    console.log('duration', duration)
+    // duration fix
+    var momentStart = moment(taskCopy.start)
+    var momentEnd = moment(taskCopy.end_date);
+    taskCopy.duration = momentEnd.diff(momentStart, 'hours').toString() + ' hours';
+    props.addTodo(taskCopy);
     setUserTask(taskCopy);
 
     props.newTodo ? props.addTodo(userTask) : (props.updateTodo(userTask), props.updateTask(userTask));

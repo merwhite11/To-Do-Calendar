@@ -52,13 +52,9 @@ var AddToDoModal = (props) => {
     newItem.in_calendar = false;
 
     // duration fix
-    var durationinSeconds = (endDate - startDate) / 1000;
-    var durationInMinutes = durationinSeconds / 60;
-    var durationMinuteRemainder = Math.abs(durationInMinutes % 60);
-    var durationInHours = Math.abs(Math.floor(durationInMinutes / 60));
-    var duration = durationInHours + ':' + durationMinuteRemainder;
-
-    newItem.duration = duration;
+    var momentStart = moment(startDate)
+    var momentEnd = moment(endDate);
+    newItem.duration = momentEnd.diff(momentStart, 'hours').toString() + ' hours';
     props.addTodo(newItem);
     props.closeCat(false);
   }

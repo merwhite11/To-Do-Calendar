@@ -10,7 +10,7 @@ const Login  = React.lazy(() => import('./components/authentication/Login.jsx'))
 function App() {
   const [currentPage, changePage] = useState("home");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const homePage = (
     <Home

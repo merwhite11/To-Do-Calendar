@@ -21,9 +21,9 @@ import ShareWithOthers from './sharing/ShareDropDown.jsx';
 import ViewShares from './sharing/SharedWithUserDropdown.jsx';
 
 var pages = [];
-const settings = ['Profile','Logout'];
+const settings = ['Logout'];
 
-const TopBar = ({userEmail, isLoading, setIsLoggedIn, isLoggedIn, isMobile, onCalendar, setOnCalendar, viewSharedCal}) => {
+const TopBar = ({setMyEvents, setAllTodos, userEmail, isLoading, setIsLoggedIn, isLoggedIn, isMobile, onCalendar, setOnCalendar, viewSharedCal}) => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
@@ -52,6 +52,8 @@ const TopBar = ({userEmail, isLoading, setIsLoggedIn, isLoggedIn, isMobile, onCa
       .then((res) => {
         if (res.data === false) {
           setIsLoggedIn(false)
+          setMyEvents([]);
+          setAllTodos([]);
         }
       })
       .catch((err) => {
@@ -65,15 +67,14 @@ const TopBar = ({userEmail, isLoading, setIsLoggedIn, isLoggedIn, isMobile, onCa
       <CssBaseline />
       <AppBar style={{ background: 'white', marginBottom:'20px'}} position='static'>
         <Toolbar >
-          <Box style={{margin: '0 auto', display: "flex", alignItems: 'right' }}>
-            {ShareMenu}
+          <Box style={{display: "flex"}}>
+            {isLoggedIn && ShareMenu}
           </Box>
-          <Box sx={{display: "flex", alignItems: 'left'}}>
-            {ViewShared}
+          <Box sx={{marginLeft: '10px', display: "flex"}}>
+           {isLoggedIn && ViewShared}
           </Box>
-          <Box style={{margin: '0 auto', display: "flex"}}></Box>
-          <Box>
-            {isMobile && <IconButton
+          <Box sx={{marginLeft: '15px'}}>
+            {isLoggedIn && isMobile && <IconButton
               name={pages[0]}
               onClick={(e) => {handlePage(e)}}
               >
@@ -83,8 +84,11 @@ const TopBar = ({userEmail, isLoading, setIsLoggedIn, isLoggedIn, isMobile, onCa
               </IconButton>}
           </Box>
           <Box style={{margin: '0 auto', display: "flex"}}>
-            <Avatar variant="square" src={'/images/x-icon/todocal - logo.ico'}
-                style={{width:'50px', height:'50px'}}/>
+            {(isMobile && isLoggedIn) ?
+            null
+            :
+             <Avatar variant="square" src={'/images/x-icon/todocal - logo.ico'}
+                style={{marginLeft:'25px', width:'50px', height:'50px'}}/>}
           </Box>
          <Box sx={{ flexGrow: 0 }}>
             {isLoading ? <CircularProgress /> : (isLoggedIn ?
