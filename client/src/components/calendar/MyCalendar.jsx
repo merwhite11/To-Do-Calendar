@@ -9,26 +9,13 @@ const DragAndDropCalendar = withDragAndDrop(Calendar);
 const localizer = momentLocalizer(moment);
 
 const MyCalendar = (props) => {
-  const formatForCalendar = (list) => {
-    if (list.length) {
-      return list.flat().map(item => { return item.items }).flat().map(item => {
-        const taskCopy = item;
-        taskCopy.start =  new Date(item.start);
-        taskCopy.end_date = new Date(item.end_date);
-        return taskCopy;
-      })
-    } else {
-      return [];
-    }
-  }
-
   if (props.viewingShared) {
     return (
       <DragAndDropCalendar
         className='calendar'
         localizer={localizer}
         defaultView="week"
-        events={formatForCalendar(props.sharedEvents).filter(item => item.in_calendar)}
+        events={props.formatForCalendar(props.sharedEvents).filter(item => item.in_calendar)}
         startAccessor="start"
         endAccessor="end_date"
         min={new Date(moment().hour(6).minute(0))}
@@ -43,7 +30,7 @@ const MyCalendar = (props) => {
       className='calendar'
       localizer={localizer}
       defaultView="week"
-      events={formatForCalendar(props.myEvents).filter(item => item.in_calendar)}
+      events={props.formatForCalendar(props.myEvents)? props.formatForCalendar(props.myEvents).filter(item => item.in_calendar) : []}
       startAccessor="start"
       endAccessor="end_date"
       onSelectEvent={(event) => {

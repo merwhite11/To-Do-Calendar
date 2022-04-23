@@ -68,6 +68,8 @@ var TaskOptionsModal = (props) => {
     taskCopy.in_calendar = inCalendar;
     taskCopy.category_id = props.categoryId;
 
+    console.log(endTime.getHours());
+
     let hours = endTime.getHours() - startTime.getHours();
     let minutes = endTime.getMinutes() - startTime.getMinutes();
 
@@ -119,11 +121,11 @@ var TaskOptionsModal = (props) => {
 
           <DesktopDateTimePicker renderInput={(props) => <TextField className={classes.input} {...props} />} label="Start Time"
             value={startTime} onChange={(newValue) => {
-              // handleTimeChange(newValue, 'start')
+              handleTimeChange(newValue, 'start')
               setStartTime(newValue)}} />
           <DesktopDateTimePicker renderInput={(props) => <TextField className={classes.input} {...props} />} label="End Time"
             value={endTime} onChange={(newValue) => {
-              // handleTimeChange(newValue, 'end_date')
+              handleTimeChange(newValue, 'end_date')
               setEndTime(newValue)}}/>
 
           <Container className={classes.container}>

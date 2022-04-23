@@ -15,17 +15,18 @@ const useStyles = makeStyles((theme) => ({
 
 function Category({tasks, isMobile, draggedEvent, setDraggedEvent, handleDragStart, addTodo, updateTodo, deleteTodo}) {
   const classes = useStyles();
-  const [todos, setTodos] = useState(tasks.items || null)
-  const [catId, setCatId] = useState(tasks.category_id || null)
+  // const [todos, setTodos] = useState(tasks.items || null)
+  // const [catId, setCatId] = useState(tasks.category_id || null)
   const [totalTime, setTotalTime] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
-  const [cumulativeHours, setCumulativeHours] = useState(0)
-  const [cumulativeMins, setCumulativeMins] = useState(0)
+  const todos = tasks.items;
+  const categoryId = tasks.category_id
+  // const onCalendarTasks = todos.filter(task => task.in_calendar);
 
-  useEffect(() => {
-    setTodos(tasks.items)
-    setCatId(tasks.category_id)
-  }, [])
+  // useEffect(() => {
+  //   setTodos(tasks.items)
+  //   setCatId(tasks.category_id)
+  // }, [])
 
   // console.log('todos in category', todos)
   // const onCalendarTasks = todos.filter(task => task.in_calendar);
@@ -79,11 +80,12 @@ function Category({tasks, isMobile, draggedEvent, setDraggedEvent, handleDragSta
           deleteTodo={deleteTodo} newTodo={true}/>}
         </Container>
         <Container sx={{ display: 'inline-block'}}>
-          <Tasks tasks={todos} isMobile={isMobile}
-          draggedEvent={draggedEvent} setDraggedEvent={setDraggedEvent}
-          handleDragStart={handleDragStart}
-          updateTodo={updateTodo} deleteTodo={deleteTodo}
-          modalOpen={modalOpen} setModalOpen={setModalOpen}/>
+          { todos !== undefined && <Tasks tasks={todos} isMobile={isMobile}
+            draggedEvent={draggedEvent} setDraggedEvent={setDraggedEvent}
+            handleDragStart={handleDragStart}
+            updateTodo={updateTodo} deleteTodo={deleteTodo}
+            modalOpen={modalOpen} setModalOpen={setModalOpen}/>
+          }
         </Container>
     </Paper>
   </Container>
